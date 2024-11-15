@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Ô Tô</title>
+    <style>
+        /* Thiết lập font và background */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Khung chính của form */
+        .container {
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Tiêu đề của form */
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Nhãn và các trường nhập liệu */
+        label {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        /* Nút bấm */
+        button {
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Thông báo lỗi */
+        .error {
+            color: #d9534f;
+            font-size: 14px;
+            margin-top: -15px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            const name = document.getElementById('name').value;
+            const price = document.getElementById('price').value;
+            const year = document.getElementById('year').value;
+            const brand = document.getElementById('brand').value;
+            const nameRegex = /^[a-zA-Z\s]+$/;
+            let valid = true;
+
+            document.querySelectorAll('.error').forEach(el => el.innerHTML = '');
+
+            if (!nameRegex.test(name)) {
+                document.getElementById('nameError').innerHTML = "Tên phải là chữ.";
+                valid = false;
+            }
+            if (isNaN(price) || price <= 0) {
+                document.getElementById('priceError').innerHTML = "Giá phải là số dương.";
+                valid = false;
+            }
+            if (year < 1980 || year > 2024) {
+                document.getElementById('yearError').innerHTML = "Năm phải trong khoảng 1980-2024.";
+                valid = false;
+            }
+            if (brand.trim() === "") {
+                document.getElementById('brandError').innerHTML = "Hãng không được để trống.";
+                valid = false;
+            }
+            return valid;
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>Thêm Ô Tô</h1>
+    <form action="http://localhost:3001/api/cars" method="POST" onsubmit="return validateForm();">
+        <label for="maXe">Mã Xe:</label>
+        <input type="text" id="maXe" name="MaXe" required>
+
+        <label for="name">Tên Xe:</label>
+        <input type="text" id="name" name="Name" required>
+        <div id="nameError" class="error"></div>
+
+        <label for="price">Giá:</label>
+        <input type="number" id="price" name="Price" required>
+        <div id="priceError" class="error"></div>
+
+        <label for="year">Năm Sản Xuất:</label>
+        <input type="number" id="year" name="Year" min="1980" max="2024" required>
+        <div id="yearError" class="error"></div>
+
+        <label for="brand">Hãng:</label>
+        <input type="text" id="brand" name="Brand" required>
+        <div id="brandError" class="error"></div>
+
+        <button type="submit">Thêm Ô Tô</button>
+    </form>
+</div>
+</body>
+</html>
